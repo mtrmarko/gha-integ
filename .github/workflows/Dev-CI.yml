@@ -6,7 +6,6 @@ on:
 defaults:
   run:
     shell: bash
-    working-directory: cicd
 jobs:
   test-platform:
     name: Checkout, Start and Test Nuclearn Platform
@@ -19,7 +18,9 @@ jobs:
           clean: false
       - name: Github context
         shell: bash
-        run: echo "Working directory is $PWD"
+        run: |
+          echo "Working directory is $PWD"
+          echo "Github workspace directory is ${{GITHUB_WORKSPACE}}"
       - name: checkout gha-api
         uses: actions/checkout@v3
         with:
