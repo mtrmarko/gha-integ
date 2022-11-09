@@ -7,4 +7,4 @@ runs:
     - name: Build and push container images
       id: build-push-container-images
       shell: bash
-      run: echo "working directory is: $PWD"
+      run: echo "working directory is $PWD"
