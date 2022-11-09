@@ -1,0 +1,33 @@
+name: Run continous integration (CI) on a schedule
+on:
+  push:
+    branches:
+      - main
+defaults:
+  run:
+    shell: bash
+    working-directory: /cicd
+jobs:
+  test-platform:
+    name: Checkout, Start and Test Nuclearn Platform
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout NPI Test Repo
+        uses: actions/checkout@v3
+        with:
+          path: gha-integ
+          clean: false
+      - name: Github context
+        shell: bash
+        run: echo "Working directory is: $PWD"
+      - name: checkout gha-api
+        uses: actions/checkout@v3
+        with:
+          repository: mtrmarko/gha-api
+          path: ngha-api
+          token: ${{inputs.CI_PAT}}
+          ref: main
+          clean: false
+      - name: Github context2
+        shell: bash
+        run: echo "Working directory is: $PWD"
