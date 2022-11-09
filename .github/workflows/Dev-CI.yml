@@ -6,7 +6,7 @@ on:
 defaults:
   run:
     shell: bash
-    working-directory: /cicd
+    working-directory: cicd
 jobs:
   test-platform:
     name: Checkout, Start and Test Nuclearn Platform
