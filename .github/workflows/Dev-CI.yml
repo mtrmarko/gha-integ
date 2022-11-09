@@ -6,6 +6,8 @@ on:
 defaults:
   run:
     shell: bash
+env:
+  ORG: mtrmarko
 jobs:
   test-platform:
     name: Checkout, Start and Test Nuclearn Platform
@@ -21,7 +23,7 @@ jobs:
       - name: checkout gha-api
         uses: actions/checkout@v3
         with:
-          repository: mtrmarko/gha-api
+          repository: ${{ env.ORG }}/gha-api
           path: gha-api
           token: ${{secrets.CI_PAT}}
           ref: main
