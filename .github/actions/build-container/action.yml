@@ -1,0 +1,10 @@
+# Actions for Running Cypress CI against the NL platform, provided a url.
+name: Build container
+description: Builds a docker image and pushes to Docker Hub
+runs:
+  using: composite
+  steps:
+    - name: Build and push container images
+      id: build-push-container-images
+      shell: bash
+      run: echo "working directory is: $PWD"
