@@ -19,7 +19,7 @@ jobs:
           clean: false
       - name: Github context
         shell: bash
-        run: echo "Working directory is: $PWD"
+        run: echo "Working directory is $PWD"
       - name: checkout gha-api
         uses: actions/checkout@v3
         with:
@@ -30,4 +30,4 @@ jobs:
           clean: false
       - name: Github context2
         shell: bash
-        run: echo "Working directory is: $PWD"
+        run: echo "Working directory is $PWD"
