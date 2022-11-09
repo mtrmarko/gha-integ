@@ -26,7 +26,7 @@ jobs:
         with:
           repository: mtrmarko/gha-api
           path: ngha-api
-          token: ${{inputs.CI_PAT}}
+          token: ${{secrets.CI_PAT}}
           ref: main
           clean: false
       - name: Github context2
