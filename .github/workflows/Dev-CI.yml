@@ -20,7 +20,7 @@ jobs:
         shell: bash
         run: |
           echo "Working directory is $PWD"
-          echo "Github workspace directory is ${{GITHUB_WORKSPACE}}"
+          echo "Github workspace directory is ${{ env.GITHUB_WORKSPACE }}"
       - name: checkout gha-api
         uses: actions/checkout@v3
         with:
