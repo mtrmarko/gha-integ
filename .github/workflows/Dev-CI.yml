@@ -32,3 +32,6 @@ jobs:
       - name: Github context2
         shell: bash
         run: echo "Working directory is $PWD"
+      - name: Build container
+        id: start-platform
+        uses: ./.github/actions/build-container
