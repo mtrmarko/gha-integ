@@ -17,7 +17,7 @@ jobs:
         include:
           - repo: gha-api
             branch: main
-            is_changed: false
+            is_changed: true
           - repo: gha-front
             branch: main
             is_changed: false
