@@ -11,11 +11,22 @@ jobs:
       matrix:
         org: [nuclearnai]
         branch: [NAI-570-fix-and-make-ci-github-action-scheduled]
-        repo: [model-runtime-engine, frontend]
-        has_devenv: [true, false]
         include:
           - repo: np_integration_testing
-            has_devenv: false
+            process_devenv: false
+            docker_image: np_integration_testing_dev
+          - repo: model-runtime-engine
+            process_devenv: false
+            docker-image: np_mreapi_dev
+          - repo: model-runtime-engine
+            process_devenv: true
+            docker-image: np_mreapi_devenv
+          - repo: frontend
+            process_devenv: false
+            docker-image: np_frontend_dev
+          - repo: frontend
+            process_devenv: true
+            docker-image: np_frontend_devenv
     steps:
       - name: test-matrix
         shell: bash
