@@ -41,7 +41,7 @@ jobs:
         shell: bash
         run: |
           echo "Working directory is $PWD"
-          echo ${{needs.checkout-repos.outputs.is_changed}}
+          echo ${{toJson(needs.checkout-repos.outputs)}}
       - name: Build container
         id: start-platform
         uses: ./gha-integ/.github/actions/build-container
