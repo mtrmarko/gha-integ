@@ -28,6 +28,7 @@ jobs:
       # and set to the value of the last instance completion
       # https://github.com/orgs/community/discussions/17245
       # https://github.com/actions/runner/issues/1835
+      # https://stackoverflow.com/questions/70287603/github-actions-dynamic-outputs-for-job-with-strategy-matrix
       is_changed_api: ${{ steps.echo-working-dir.outputs.is_changed_gha-api }}
       is_changed_integ: ${{ steps.echo-working-dir.outputs.is_changed_gha-integ }}
       is_changed_front: ${{ steps.echo-working-dir.outputs.is_changed_gha-front }}
