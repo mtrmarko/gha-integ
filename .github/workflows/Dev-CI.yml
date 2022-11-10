@@ -41,7 +41,7 @@ jobs:
         shell: bash
         run: |
           echo "Working directory is $PWD"
-          echo "${{ toJson(jobs) }}"
+          echo "${{ toJson(needs) }}"
 #       - name: Build container
 #         id: start-platform
 #         uses: ./gha-integ/.github/actions/build-container
