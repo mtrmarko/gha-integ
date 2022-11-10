@@ -17,10 +17,13 @@ jobs:
         include:
           - repo: gha-api
             branch: main
+            is_changed: true
           - repo: gha-front
             branch: main
+            is_changed: false
           - repo: gha-integ
             branch: main
+            is_changed: false
     outputs:
       # Github Actions do not have the ability to export
       # outputs for each matrix instance into a single list
@@ -46,8 +49,8 @@ jobs:
         shell: bash
         run: |
           echo "Working directory after ${{matrix.repo}} is $PWD"
-          echo "is_changed_${{ matrix.repo }}=true"
-          echo "is_changed_${{ matrix.repo }}=true" >> $GITHUB_OUTPUT
+          echo "is_changed_${{ matrix.repo }}=${{ matrix.is_changed }}"
+          echo "is_changed_${{ matrix.repo }}=${{ matrix.is_changed }}" >> $GITHUB_OUTPUT
   start-platform:
     name: Start platform
     runs-on: ubuntu-latest
