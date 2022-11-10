@@ -33,6 +33,7 @@ jobs:
         shell: bash
         run: |
           echo "Working directory after ${{matrix.repo}} is $PWD"
+          echo "is_changed_${{ matrix.repo }}=true"
           echo "is_changed_${{ matrix.repo }}=true" >> $GITHUB_OUTPUT
   start-platform:
     name: Start platform
