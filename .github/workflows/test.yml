@@ -11,8 +11,9 @@ jobs:
       matrix:
         org: [nuclearnai]
         branch: [NAI-570-fix-and-make-ci-github-action-scheduled]
+        repo: [model-runtime-engine, frontend, np-integration-testing]
         include:
-          - repo: np_integration_testing
+          - repo: np-integration-testing
 #             org: nuclearnai
 #             branch: NAI-570-fix-and-make-ci-github-action-scheduled
             process_devenv: false
