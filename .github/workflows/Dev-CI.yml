@@ -15,6 +15,8 @@ jobs:
     strategy:
       matrix:
         repo: [gha-api, gha-front, gha-integ]
+    outputs:
+      is_changed: ${{ steps.echo-working-dir.outputs.is_changed }}
     steps:
       - name: Checkout repos
         uses: actions/checkout@v3
@@ -25,9 +27,11 @@ jobs:
           clean: false
           path: ${{ matrix.repo }}
       - name: Echo working directory
+        id: echo-working-dir
         shell: bash
         run: |
           echo "Working directory after ${{matrix.repo}} is $PWD"
+          echo "is_changed=true" >> $GITHUB_OUTPUT
   start-platform:
     name: Start platform
     runs-on: ubuntu-latest
@@ -36,7 +40,8 @@ jobs:
       - name: Echo working directory
         shell: bash
         run: |
-          echo "Working directory after ${{matrix.repo}} is $PWD"
+          echo "Working directory is $PWD"
+          echo ${{needs.checkout-repos.outputs.is_changed}}
       - name: Build container
         id: start-platform
         uses: ./gha-integ/.github/actions/build-container
