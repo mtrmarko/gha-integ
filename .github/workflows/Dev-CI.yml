@@ -23,10 +23,11 @@ jobs:
           token: ${{secrets.CI_PAT}}
           ref: main
           clean: false
+          path: ${{ matrix.repo }}
       - name: Github context
         shell: bash
         run: |
           echo "Working directory after ${{matrix.repo}} is $PWD"
       - name: Build container
         id: start-platform
-        uses: ./.github/actions/build-container
+        uses: ./gha-integ/.github/actions/build-container
