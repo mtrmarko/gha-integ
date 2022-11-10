@@ -16,7 +16,9 @@ jobs:
       matrix:
         repo: [gha-api, gha-front, gha-integ]
     outputs:
-      is_changed_${{matrix.repo}}: ${{ steps.echo-working-dir.outputs.is_changed }}
+      is_changed_api: ${{ steps.echo-working-dir.outputs.is_changed_gha_api }}
+      is_changed_integ: ${{ steps.echo-working-dir.outputs.is_changed_gha_integ }}
+      is_changed_front: ${{ steps.echo-working-dir.outputs.is_changed_gha_front }}
     steps:
       - name: Checkout repos
         uses: actions/checkout@v3
@@ -31,7 +33,7 @@ jobs:
         shell: bash
         run: |
           echo "Working directory after ${{matrix.repo}} is $PWD"
-          echo "is_changed=true" >> $GITHUB_OUTPUT
+          echo "is_changed_${{ matrix.repo }}=true" >> $GITHUB_OUTPUT
   start-platform:
     name: Start platform
     runs-on: ubuntu-latest
