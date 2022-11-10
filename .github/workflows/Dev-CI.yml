@@ -14,8 +14,20 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        repo: [gha-api, gha-front, gha-integ]
+        include:
+          - repo: gha-api
+            branch: main
+          - repo: gha-front
+            branch: main
+          - repo: gha-integ
+            branch: main
     outputs:
+      # Github Actions do not have the ability to export
+      # outputs for each matrix instance into a single list
+      # of values. Instead, single output variable is dumped
+      # and set to the value of the last instance completion
+      # https://github.com/orgs/community/discussions/17245
+      # https://github.com/actions/runner/issues/1835
       is_changed_api: ${{ steps.echo-working-dir.outputs.is_changed_gha-api }}
       is_changed_integ: ${{ steps.echo-working-dir.outputs.is_changed_gha-integ }}
       is_changed_front: ${{ steps.echo-working-dir.outputs.is_changed_gha-front }}
@@ -25,7 +37,7 @@ jobs:
         with:
           repository: mtrmarko/${{ matrix.repo }}
           token: ${{secrets.CI_PAT}}
-          ref: main
+          ref: ${{ matrix.branch }}
           clean: false
           path: ${{ matrix.repo }}
       - name: Echo working directory
