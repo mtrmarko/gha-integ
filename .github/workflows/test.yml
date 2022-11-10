@@ -9,30 +9,32 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        org: [nuclearnai]
+        branch: [NAI-570-fix-and-make-ci-github-action-scheduled]
         include:
           - repo: np_integration_testing
-            org: nuclearnai
-            branch: NAI-570-fix-and-make-ci-github-action-scheduled
+#             org: nuclearnai
+#             branch: NAI-570-fix-and-make-ci-github-action-scheduled
             process_devenv: false
             docker_image: np_integration_testing_dev
           - repo: model-runtime-engine
-            org: nuclearnai
-            branch: NAI-570-fix-and-make-ci-github-action-scheduled
+#             org: nuclearnai
+#             branch: NAI-570-fix-and-make-ci-github-action-scheduled
             process_devenv: false
             docker-image: np_mreapi_dev
           - repo: model-runtime-engine
-            org: nuclearnai
-            branch: NAI-570-fix-and-make-ci-github-action-scheduled
+#             org: nuclearnai
+#             branch: NAI-570-fix-and-make-ci-github-action-scheduled
             process_devenv: true
             docker-image: np_mreapi_devenv
           - repo: frontend
-            org: nuclearnai
-            branch: NAI-570-fix-and-make-ci-github-action-scheduled
+#             org: nuclearnai
+#             branch: NAI-570-fix-and-make-ci-github-action-scheduled
             process_devenv: false
             docker-image: np_frontend_dev
           - repo: frontend
-            org: nuclearnai
-            branch: NAI-570-fix-and-make-ci-github-action-scheduled
+#             org: nuclearnai
+#             branch: NAI-570-fix-and-make-ci-github-action-scheduled
             process_devenv: true
             docker-image: np_frontend_devenv
     steps:
