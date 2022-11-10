@@ -1,0 +1,26 @@
+name: Run continous integration (CI) on a schedule
+on:
+  push:
+    branches:
+      - main
+jobs:
+  checkout-repos:
+    name: Checkout, Start and Test Nuclearn Platform
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        org: [nuclearnai]
+        branch: [NAI-570-fix-and-make-ci-github-action-scheduled]
+        repo: [model-runtime-engine, frontend]
+        has_devenv: [true, false]
+        include:
+          - repo: np_integration_testing
+            has_devenv: false
+    steps:
+      - name: test-matrix
+        shell: bash
+        run: |
+          echo "org is ${{ matrix.org }}"
+          echo "branch is ${{ matrix.branch }}"
+          echo "repo is ${{ matrix.repo }}"
+          echo "has dev env is ${{ matrix.has_devenv }}"
