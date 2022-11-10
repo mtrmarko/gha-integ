@@ -31,6 +31,7 @@ jobs:
   start-platform:
     name: Start platform
     runs-on: ubuntu-latest
+    needs: checkout-repos
     steps:
       - name: Echo working directory
         shell: bash
