@@ -16,9 +16,9 @@ jobs:
       matrix:
         repo: [gha-api, gha-front, gha-integ]
     outputs:
-      is_changed_api: ${{ steps.echo-working-dir.outputs.is_changed_gha_api }}
-      is_changed_integ: ${{ steps.echo-working-dir.outputs.is_changed_gha_integ }}
-      is_changed_front: ${{ steps.echo-working-dir.outputs.is_changed_gha_front }}
+      is_changed_api: ${{ steps.echo-working-dir.outputs.is_changed_gha-api }}
+      is_changed_integ: ${{ steps.echo-working-dir.outputs.is_changed_gha-integ }}
+      is_changed_front: ${{ steps.echo-working-dir.outputs.is_changed_gha-front }}
     steps:
       - name: Checkout repos
         uses: actions/checkout@v3
