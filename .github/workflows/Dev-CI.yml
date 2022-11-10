@@ -55,7 +55,7 @@ jobs:
     name: Start platform
     runs-on: ubuntu-latest
     needs: checkout-repos
-    if: ${{ needs.checkout-repos.output.is_changed_api || needs.checkout-repos.output.is_changed_api || needs.checkout-repos.output.is_changed_api }}
+    if: ${{ needs.checkout-repos.outputs.is_changed_api || needs.checkout-repos.outputs.is_changed_api || needs.checkout-repos.outputs.is_changed_api }}
     steps:
       - name: Echo working directory
         shell: bash
