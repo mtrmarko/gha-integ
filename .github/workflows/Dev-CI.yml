@@ -9,14 +9,14 @@ defaults:
 env:
   ORG: mtrmarko
 jobs:
-  test-platform:
+  checkout-repos:
     name: Checkout, Start and Test Nuclearn Platform
     runs-on: ubuntu-latest
     strategy:
       matrix:
         repo: [gha-api, gha-front, gha-integ]
     steps:
-      - name: Checkout NPI Test Repo
+      - name: Checkout repos
         uses: actions/checkout@v3
         with:
           repository: mtrmarko/${{ matrix.repo }}
@@ -24,7 +24,15 @@ jobs:
           ref: main
           clean: false
           path: ${{ matrix.repo }}
-      - name: Github context
+      - name: Echo working directory
+        shell: bash
+        run: |
+          echo "Working directory after ${{matrix.repo}} is $PWD"
+  start-platform:
+    name: Start platform
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo working directory
         shell: bash
         run: |
           echo "Working directory after ${{matrix.repo}} is $PWD"
