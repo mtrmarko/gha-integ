@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+env:
+  BRANCH: NAI-570-fix-and-make-ci-github-action-scheduled
 jobs:
   checkout-repos:
     name: Checkout, Start and Test Nuclearn Platform
@@ -10,7 +12,7 @@ jobs:
     strategy:
       matrix:
         org: [nuclearnai]
-        branch: [NAI-570-fix-and-make-ci-github-action-scheduled]
+        branch: [ env.BRANCH ]
         repo: [model-runtime-engine, frontend, np-integration-testing]
         process_devenv: [false]
         include:
