@@ -28,31 +28,31 @@ jobs:
         run: |
           matrix=$(cat <<EOF
           {
-            \"include\": [{
-              \"repo\": \"$NPIT_REPO\",
-              \"org\": \"$ORG\",
-              \"branch\": \"$NPIT_BRANCH\",
-              \"docker-image\": \"$NPIT_DOCKER_IMAGE\"
+            "include": [{
+              "repo": "$NPIT_REPO",
+              "org": "$ORG",
+              "branch": "$NPIT_BRANCH",
+              "docker-image": "$NPIT_DOCKER_IMAGE"
             }, {
-              \"repo\": \"$MRE_REPO\",
-              \"org\": \"$ORG\",
-              \"branch\": "$MRE_BRANCH",
-              \"docker-image\": \"$MRE_DOCKER_IMAGE\"
+              "repo": "$MRE_REPO",
+              "org": "$ORG",
+              "branch": "$MRE_BRANCH",
+              "docker-image": "$MRE_DOCKER_IMAGE"
             }, {
-              \"repo\": \"$MRE_REPO\",
-              \"org\": \"$ORG\",
-              \"branch\": \"$MRE_BRANCH\",
-              \"docker-image\": \"$MRE__DEVENV_DOCKER_IMAGE\"
+              "repo": "$MRE_REPO",
+              "org": "$ORG",
+              "branch": "$MRE_BRANCH",
+              "docker-image": "$MRE__DEVENV_DOCKER_IMAGE"
             }, {
-              \"repo\": \"$FRONTEND_REPO\",
-              \"org\": \"$ORG\",
-              \"branch\": \"$FRONTEND_BRANCH\",
-              \"docker-image\": \"$FRONTEND_DOCKER_IMAGE\"
+              "repo": "$FRONTEND_REPO",
+              "org": "$ORG",
+              "branch": "$FRONTEND_BRANCH",
+              "docker-image": "$FRONTEND_DOCKER_IMAGE"
             }, {
-              \"repo\": \"$FRONTEND_REPO\",
-              \"org\": \"$ORG\",
-              \"branch\": \"$FRONTEND_BRANCH\",
-              \"docker-image\": \"$FRONTEND_DEVENV_DOCKER_IMAGE\"
+              "repo": "$FRONTEND_REPO",
+              "org": "$ORG",
+              "branch": "$FRONTEND_BRANCH",
+              "docker-image": "$FRONTEND_DEVENV_DOCKER_IMAGE"
             }]
           }
           EOF
