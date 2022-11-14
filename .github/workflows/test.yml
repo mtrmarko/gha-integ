@@ -4,42 +4,67 @@ on:
     branches:
       - main
 env:
-  BRANCH: NAI-570-fix-and-make-ci-github-action-scheduled
+  ORG: nuclearnai
+  MRE_REPO: model-runtime-engine
+  MRE_BRANCH: main
+  MRE_DOCKER_IMAGE: np_mreapi_dev
+  MRE_DEVENV_DOCKER_IMAGE: np_mreapi_devenv
+  FRONTEND_REPO: frontend
+  FRONTEND_BRANCH: main
+  FRONTEND_DOCKER_IMAGE: np_frontend_dev
+  FRONTEND_DEVENV_DOCKER_IMAGE: np_frontend_devenv
+  NPIT_REPO: np_integration_testing
+  NPIT_BRANCH: main
+  NPIT_DOCKER_IMAGE: np_integration_testing_dev
 jobs:
+  prep-matrix:
+    name: Prepare matrix
+    runs-on: ubuntu-latest
+    outputs:
+      container-image-matrix: ${{ steps.prepare-container-image-matrix.outputs.container-image-matrix }}
+    steps:
+      - name: prepare-container-image-matrix
+        shell: bash
+        run: |
+          matrix=$(cat <<EOF
+          {
+            "include": [{
+              "repo": "$NPIT_REPO",
+              "org": "$ORG",
+              "branch": "$NPIT_BRANCH",
+              "docker-image": "$NPIT_DOCKER_IMAGE"
+            }, {
+              "repo": "$MRE_REPO",
+              "org": "$ORG",
+              "branch": "$MRE_BRANCH",
+              "docker-image": "$MRE_DOCKER_IMAGE"
+            }, {
+              "repo": "$MRE_REPO",
+              "org": "$ORG",
+              "branch": "$MRE_BRANCH",
+              "docker-image": "$MRE__DEVENV_DOCKER_IMAGE"
+            }, {
+              "repo": "$FRONTEND_REPO",
+              "org": "$ORG",
+              "branch": "$FRONTEND_BRANCH",
+              "docker-image": "$FRONTEND_DOCKER_IMAGE"
+            }, {
+              "repo": "$FRONTEND_REPO",
+              "org": "$ORG",
+              "branch": "$FRONTEND_BRANCH",
+              "docker-image": "$FRONTEND_DEVENV_DOCKER_IMAGE"
+            }]
+          }
+          EOF
+          )
+          echo "container-image-matrix=$matrix" >> $GITHUB_OUTPUT
+    
   checkout-repos:
     name: Checkout, Start and Test Nuclearn Platform
     runs-on: ubuntu-latest
+    needs: prep-matrix
     strategy:
-      matrix:
-        org: [nuclearnai]
-        repo: [model-runtime-engine, frontend, np-integration-testing]
-        process_devenv: [false]
-        include:
-          - repo: np-integration-testing
-            org: nuclearnai
-            branch: main
-            process_devenv: false
-            docker_image: np_integration_testing_dev
-          - repo: model-runtime-engine
-            org: nuclearnai
-            branch: main
-            process_devenv: false
-            docker-image: np_mreapi_dev
-          - repo: model-runtime-engine
-            org: nuclearnai
-            branch: main
-            process_devenv: true
-            docker-image: np_mreapi_devenv
-          - repo: frontend
-            org: nuclearnai
-            branch: main
-            process_devenv: false
-            docker-image: np_frontend_dev
-          - repo: frontend
-            org: nuclearnai
-            branch: main
-            process_devenv: true
-            docker-image: np_frontend_devenv
+      matrix: ${{ fromJson(needs.prep-matrix.outputs.container-image-matrix) }}
     steps:
       - name: test-matrix
         shell: bash
