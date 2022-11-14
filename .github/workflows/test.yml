@@ -58,6 +58,7 @@ jobs:
           EOF
           )
           echo "container-image-matrix=$matrix" | sed ':a;N;$!ba;s/\n/%0A/g' >> $GITHUB_OUTPUT
+          echo "container-image-matrix=$matrix" | sed ':a;N;$!ba;s/\n/%0A/g'
     
   checkout-repos:
     name: Checkout, Start and Test Nuclearn Platform
