@@ -17,27 +17,27 @@ jobs:
         include:
           - repo: np-integration-testing
             org: nuclearnai
-            branch: ${{ env.BRANCH }}
+            branch: main
             process_devenv: false
             docker_image: np_integration_testing_dev
           - repo: model-runtime-engine
             org: nuclearnai
-            branch: ${{ env.BRANCH }}
+            branch: main
             process_devenv: false
             docker-image: np_mreapi_dev
           - repo: model-runtime-engine
             org: nuclearnai
-            branch: ${{ env.BRANCH }}
+            branch: main
             process_devenv: true
             docker-image: np_mreapi_devenv
           - repo: frontend
             org: nuclearnai
-            branch: ${{ env.BRANCH }}
+            branch: main
             process_devenv: false
             docker-image: np_frontend_dev
           - repo: frontend
             org: nuclearnai
-            branch: ${{ env.BRANCH }}
+            branch: main
             process_devenv: true
             docker-image: np_frontend_devenv
     steps:
@@ -48,3 +48,4 @@ jobs:
           echo "branch is ${{ matrix.branch }}"
           echo "repo is ${{ matrix.repo }}"
           echo "has dev env is ${{ matrix.process_devenv }}"
+          echo $${{ toJson(matrix) }}
