@@ -23,7 +23,7 @@ jobs:
     outputs:
       container-image-matrix: ${{ steps.prepare-container-image-matrix.outputs.container-image-matrix }}
     steps:
-      - name: prepare-container-image-matrix
+      - id: prepare-container-image-matrix
         shell: bash
         run: |
           matrix=$(cat <<EOF
