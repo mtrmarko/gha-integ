@@ -81,5 +81,4 @@ jobs:
           echo "org is ${{ matrix.org }}"
           echo "branch is ${{ matrix.branch }}"
           echo "repo is ${{ matrix.repo }}"
-          echo "has dev env is ${{ matrix.process_devenv }}"
-          echo "$${{ toJson(matrix) }}"
+          echo "docker image is ${{ matrix.docker-image }}"
