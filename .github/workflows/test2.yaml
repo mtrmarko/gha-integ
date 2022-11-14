@@ -7,7 +7,7 @@ defaults:
   run:
     shell: bash
 env:
-  ORG: $(date)
+  ORG: $(date +%Y%m%d%H%M%S)
 jobs:
   checkout-repos:
      runs-on: ubuntu-latest
