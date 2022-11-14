@@ -57,8 +57,8 @@ jobs:
           }
           EOF
           )
-          echo "container-image-matrix=$($matrix" | sed ':a;N;$!ba;s/\n//g') >> $GITHUB_OUTPUT
-          echo $($matrix | sed ':a;N;$!ba;s/\n//g')
+          #echo "container-image-matrix=$($matrix" | sed ':a;N;$!ba;s/\n//g') >> $GITHUB_OUTPUT
+          echo $(echo $matrix | sed ':a;N;$!ba;s/\n//g')
   test:
     name: test
     runs-on: ubuntu-latest
