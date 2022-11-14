@@ -48,4 +48,4 @@ jobs:
           echo "branch is ${{ matrix.branch }}"
           echo "repo is ${{ matrix.repo }}"
           echo "has dev env is ${{ matrix.process_devenv }}"
-          echo $${{ toJson(matrix) }}
+          echo "$${{ toJson(matrix) }}"
