@@ -10,7 +10,8 @@ env:
   ORG: $(date)
 jobs:
   checkout-repos:
-    name: Checkout, Start and Test Nuclearn Platform
-    runs-on: ubuntu-latest
-    run: |
-      echo "${{ env.ORG }}"
+     runs-on: ubuntu-latest
+     steps:
+      - name: Checkout, Start and Test Nuclearn Platform
+        run: |
+            echo "${{ env.ORG }}"
