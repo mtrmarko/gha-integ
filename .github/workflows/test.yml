@@ -58,8 +58,15 @@ jobs:
           EOF
           )
           echo "container-image-matrix=$matrix" | sed ':a;N;$!ba;s/\n//g' >> $GITHUB_OUTPUT
-          echo "container-image-matrix=$matrix" | sed ':a;N;$!ba;s/\n//g'
-    
+          echo $($matrix | sed ':a;N;$!ba;s/\n//g')
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    needs: prep-matrix
+    steps:
+      - name: dump json
+        shell: bash
+        run: echo "${{ needs.prep-matrix.outputs.container-image-matrix }}"
   checkout-repos:
     name: Checkout, Start and Test Nuclearn Platform
     runs-on: ubuntu-latest
