@@ -28,7 +28,7 @@ env:
 jobs:
   prep-matrix:
     name: Prepare matrix
-    runs-on: [self-hosted, cicd-runner]
+    runs-on: ubuntu-latest
     outputs:
       container-image-matrix: ${{ steps.prepare-container-image-matrix.outputs.container-image-matrix }}
       bump-version-matrix: ${{ steps.prepare-bump-version-matrix.outputs.bump-version-matrix }}
