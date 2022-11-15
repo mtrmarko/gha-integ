@@ -72,7 +72,7 @@ jobs:
           }
           EOF
           )
-          matrix=$(echo $matrix | sed ':a;N;$!ba;s/\n//g')
+          matrix=$(echo $matrix | sed 's/\n//g')
           echo "container-image-matrix=$matrix" >> $GITHUB_OUTPUT
           echo $matrix
       - id: prepare-bump-version-matrix
