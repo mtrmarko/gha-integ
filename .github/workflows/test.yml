@@ -6,22 +6,32 @@ on:
 env:
   ORG: nuclearnai
   MRE_REPO: model-runtime-engine
-  MRE_BRANCH: main
-  MRE_DOCKER_IMAGE: np_mreapi_dev
-  MRE_DEVENV_DOCKER_IMAGE: np_mreapi_devenv
+  MRE_BRANCH: NAI-570-fix-and-make-ci-github-action-scheduled
+  MRE_CONTAINER_IMAGE: np_mreapi_dev
+  MRE_DEVENV_CONTAINER_IMAGE: np_mreapi_devenv
   FRONTEND_REPO: frontend
-  FRONTEND_BRANCH: main
-  FRONTEND_DOCKER_IMAGE: np_frontend_dev
-  FRONTEND_DEVENV_DOCKER_IMAGE: np_frontend_devenv
-  NPIT_REPO: np_integration_testing
-  NPIT_BRANCH: main
-  NPIT_DOCKER_IMAGE: np_integration_testing_dev
+  FRONTEND_BRANCH: NAI-570-fix-and-make-ci-github-action-scheduled
+  FRONTEND_CONTAINER_IMAGE: np_frontend_dev
+  FRONTEND_DEVENV_CONTAINER_IMAGE: np_frontend_devenv
+  INTEG_TEST_REPO: np-integration-testing
+  INTEG_TEST_BRANCH: NAI-570-fix-and-make-ci-github-action-scheduled
+  INTEG_TEST_CONTAINER_IMAGE: np_integration_testing_dev
+  REUSABLE_GH_ACTIONS_REPO: np-integration-testing
+  REUSABLE_GH_ACTIONS_BRANCH: NAI-570-fix-and-make-ci-github-action-scheduled
+  REUSABLE_GH_ACTIONS_PATH: gh-actions
+  TIMESTAMP: $(date +%Y%m%d%H%M%S)
+  DEVENV_GIT_BRANCH: NAI-570-fix-and-make-ci-github-action-scheduled
+  DEVENV_CONTAINER_USER: nuclearn
+  NODE_MAJOR_VERSION: 16
+  DEVENV_MGMT_REPO: nuclearn-platform-dev-environment
+  DEVENV_MGMT_BRANCH: main
 jobs:
   prep-matrix:
     name: Prepare matrix
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, cicd-runner]
     outputs:
       container-image-matrix: ${{ steps.prepare-container-image-matrix.outputs.container-image-matrix }}
+      bump-version-matrix: ${{ steps.prepare-bump-version-matrix.outputs.bump-version-matrix }}
     steps:
       - id: prepare-container-image-matrix
         shell: bash
@@ -29,30 +39,35 @@ jobs:
           matrix=$(cat <<EOF
           {
             "include": [{
-              "repo": "$NPIT_REPO",
+              "repo": "$INTEG_TEST_REPO",
               "org": "$ORG",
-              "branch": "$NPIT_BRANCH",
-              "docker-image": "$NPIT_DOCKER_IMAGE"
+              "branch": "$INTEG_TEST_BRANCH",
+              "container-image": "$INTEG_TEST_CONTAINER_IMAGE",
+              "build-arguments": "--build-arg NODE_MAJOR_VERSION=${NODE_MAJOR_VERSION}"
             }, {
               "repo": "$MRE_REPO",
               "org": "$ORG",
               "branch": "$MRE_BRANCH",
-              "docker-image": "$MRE_DOCKER_IMAGE"
+              "container-image": "$MRE_CONTAINER_IMAGE",
+              "build-arguments": "--target mreapi"
             }, {
               "repo": "$MRE_REPO",
               "org": "$ORG",
               "branch": "$MRE_BRANCH",
-              "docker-image": "$MRE_DEVENV_DOCKER_IMAGE"
+              "container-image": "$MRE_DEVENV_CONTAINER_IMAGE",
+              "build-arguments": "--target mreapi-devenv --build-arg CONTAINER_USER=${DEVENV_CONTAINER_USER} --build-arg GITHUB_PAT=${{ secrets.CI_PAT }} --build-arg GIT_DEV_BRANCH=${DEVENV_GIT_BRANCH} --build-arg TIMESTAMP=${TIMESTAMP}"
             }, {
               "repo": "$FRONTEND_REPO",
               "org": "$ORG",
               "branch": "$FRONTEND_BRANCH",
-              "docker-image": "$FRONTEND_DOCKER_IMAGE"
+              "container-image": "$FRONTEND_CONTAINER_IMAGE",
+              "build-arguments": "--target release --build-arg CONTAINER_USER=${DEVENV_CONTAINER_USER} --build-arg GITHUB_PAT=${{ secrets.CI_PAT }} --build-arg GIT_DEV_BRANCH=${DEVENV_GIT_BRANCH} --build-arg TIMESTAMP=${TIMESTAMP} --build-arg NODE_MAJOR_VERSION=${NODE_MAJOR_VERSION}"
             }, {
               "repo": "$FRONTEND_REPO",
               "org": "$ORG",
               "branch": "$FRONTEND_BRANCH",
-              "docker-image": "$FRONTEND_DEVENV_DOCKER_IMAGE"
+              "container-image": "$FRONTEND_DEVENV_CONTAINER_IMAGE",
+              "build-arguments": "--target devenv"
             }]
           }
           EOF
@@ -60,6 +75,29 @@ jobs:
           matrix=$(echo $matrix | sed ':a;N;$!ba;s/\n//g')
           echo "container-image-matrix=$matrix" >> $GITHUB_OUTPUT
           echo $matrix
+      - id: prepare-bump-version-matrix
+        shell: bash
+        run: |
+          matrix=$(cat <<EOF
+          {
+            "include": [{
+              "repo": "$INTEG_TEST_REPO",
+              "org": "$ORG",
+              "branch": "$INTEG_TEST_BRANCH"
+            }, {
+              "repo": "$MRE_REPO",
+              "org": "$ORG",
+              "branch": "$MRE_BRANCH"
+            }, {
+              "repo": "$FRONTEND_REPO",
+              "org": "$ORG",
+              "branch": "$FRONTEND_BRANCH"
+            }]
+          }
+          EOF
+          )
+          matrix=$(echo $matrix | sed ':a;N;$!ba;s/\n//g')
+          echo "bump-version-matrix=$matrix" >> $GITHUB_OUTPUT
   test:
     name: test
     runs-on: ubuntu-latest
@@ -68,17 +106,17 @@ jobs:
       - name: dump json
         shell: bash
         run: echo "${{ needs.prep-matrix.outputs.container-image-matrix }}"
-  checkout-repos:
-    name: Checkout, Start and Test Nuclearn Platform
-    runs-on: ubuntu-latest
-    needs: prep-matrix
-    strategy:
-      matrix: ${{ fromJson(needs.prep-matrix.outputs.container-image-matrix) }}
-    steps:
-      - name: test-matrix
-        shell: bash
-        run: |
-          echo "org is ${{ matrix.org }}"
-          echo "branch is ${{ matrix.branch }}"
-          echo "repo is ${{ matrix.repo }}"
-          echo "docker image is ${{ matrix.docker-image }}"
+#   checkout-repos:
+#     name: Checkout, Start and Test Nuclearn Platform
+#     runs-on: ubuntu-latest
+#     needs: prep-matrix
+#     strategy:
+#       matrix: ${{ fromJson(needs.prep-matrix.outputs.container-image-matrix) }}
+#     steps:
+#       - name: test-matrix
+#         shell: bash
+#         run: |
+#           echo "org is ${{ matrix.org }}"
+#           echo "branch is ${{ matrix.branch }}"
+#           echo "repo is ${{ matrix.repo }}"
+#           echo "docker image is ${{ matrix.docker-image }}"
