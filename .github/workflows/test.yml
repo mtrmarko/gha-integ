@@ -42,22 +42,31 @@ jobs:
               "repo": "$INTEG_TEST_REPO",
               "org": "$ORG",
               "branch": "$INTEG_TEST_BRANCH",
-              "container-image": "$INTEG_TEST_CONTAINER_IMAGE"
+              "container-image": "$INTEG_TEST_CONTAINER_IMAGE",
+              "build-arguments": "--build-arg NODE_MAJOR_VERSION=${NODE_MAJOR_VERSION}"
             }, {
               "repo": "$MRE_REPO",
               "org": "$ORG",
               "branch": "$MRE_BRANCH",
-              "container-image": "$MRE_CONTAINER_IMAGE"
+              "container-image": "$MRE_CONTAINER_IMAGE",
+              "build-arguments": "--target mreapi"
             }, {
               "repo": "$MRE_REPO",
               "org": "$ORG",
               "branch": "$MRE_BRANCH",
-              "container-image": "$MRE_DEVENV_CONTAINER_IMAGE"
+              "container-image": "$MRE_DEVENV_CONTAINER_IMAGE",
+              "build-arguments": "--target mreapi-devenv --build-arg CONTAINER_USER=${DEVENV_CONTAINER_USER} --build-arg GITHUB_PAT=${{ secrets.CI_PAT }} --build-arg GIT_DEV_BRANCH=${DEVENV_GIT_BRANCH} --build-arg TIMESTAMP=${TIMESTAMP}"
             }, {
               "repo": "$FRONTEND_REPO",
               "org": "$ORG",
               "branch": "$FRONTEND_BRANCH",
-              "container-image": "$FRONTEND_DEVENV_CONTAINER_IMAGE"
+              "container-image": "$FRONTEND_CONTAINER_IMAGE"
+            }, {
+              "repo": "$FRONTEND_REPO",
+              "org": "$ORG",
+              "branch": "$FRONTEND_BRANCH",
+              "container-image": "$FRONTEND_DEVENV_CONTAINER_IMAGE",
+              "build-arguments": "--target devenv"
             }]
           }
           EOF
