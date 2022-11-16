@@ -55,13 +55,13 @@ jobs:
               "org": "$ORG",
               "branch": "$MRE_BRANCH",
               "container-image": "$MRE_DEVENV_CONTAINER_IMAGE",
-              "build-arguments": "--target mreapi-devenv --build-arg CONTAINER_USER=${DEVENV_CONTAINER_USER} --build-arg GIT_DEV_BRANCH=${DEVENV_GIT_BRANCH} --build-arg TIMESTAMP=${TIMESTAMP}"
+              "build-arguments": "--target mreapi-devenv --build-arg CONTAINER_USER=${DEVENV_CONTAINER_USER} --build-arg GITHUB_PAT=blah22 --build-arg GIT_DEV_BRANCH=${DEVENV_GIT_BRANCH} --build-arg TIMESTAMP=${TIMESTAMP}"
             }, {
               "repo": "$FRONTEND_REPO",
               "org": "$ORG",
               "branch": "$FRONTEND_BRANCH",
               "container-image": "$FRONTEND_CONTAINER_IMAGE",
-              "build-arguments": "--target release --build-arg CONTAINER_USER=${DEVENV_CONTAINER_USER} --build-arg GIT_DEV_BRANCH=${DEVENV_GIT_BRANCH} --build-arg TIMESTAMP=${TIMESTAMP} --build-arg NODE_MAJOR_VERSION=${NODE_MAJOR_VERSION}"
+              "build-arguments": "--target release --build-arg CONTAINER_USER=${DEVENV_CONTAINER_USER} --build-arg GITHUB_PAT=blah22 --build-arg GIT_DEV_BRANCH=${DEVENV_GIT_BRANCH} --build-arg TIMESTAMP=${TIMESTAMP} --build-arg NODE_MAJOR_VERSION=${NODE_MAJOR_VERSION}"
             }, {
               "repo": "$FRONTEND_REPO",
               "org": "$ORG",
