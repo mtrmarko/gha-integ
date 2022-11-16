@@ -25,7 +25,6 @@ env:
   NODE_MAJOR_VERSION: 16
   DEVENV_MGMT_REPO: nuclearn-platform-dev-environment
   DEVENV_MGMT_BRANCH: main
-  BLAH: ${{ secrets.CI_PAT }}
 jobs:
   prep-matrix:
     name: Prepare matrix
@@ -56,13 +55,13 @@ jobs:
               "org": "$ORG",
               "branch": "$MRE_BRANCH",
               "container-image": "$MRE_DEVENV_CONTAINER_IMAGE",
-              "build-arguments": "--target mreapi-devenv --build-arg CONTAINER_USER=${DEVENV_CONTAINER_USER} --build-arg GITHUB_PAT=${BLAH} --build-arg GIT_DEV_BRANCH=${DEVENV_GIT_BRANCH} --build-arg TIMESTAMP=${TIMESTAMP}"
+              "build-arguments": "--target mreapi-devenv --build-arg CONTAINER_USER=${DEVENV_CONTAINER_USER} --build-arg GITHUB_PAT=##GITHUBTOKEN## --build-arg GIT_DEV_BRANCH=${DEVENV_GIT_BRANCH} --build-arg TIMESTAMP=${TIMESTAMP}"
             }, {
               "repo": "$FRONTEND_REPO",
               "org": "$ORG",
               "branch": "$FRONTEND_BRANCH",
               "container-image": "$FRONTEND_CONTAINER_IMAGE",
-              "build-arguments": "--target release --build-arg CONTAINER_USER=${DEVENV_CONTAINER_USER} --build-arg GITHUB_PAT=${BLAH} --build-arg GIT_DEV_BRANCH=${DEVENV_GIT_BRANCH} --build-arg TIMESTAMP=${TIMESTAMP} --build-arg NODE_MAJOR_VERSION=${NODE_MAJOR_VERSION}"
+              "build-arguments": "--target release --build-arg CONTAINER_USER=${DEVENV_CONTAINER_USER} --build-arg GITHUB_PAT=##GITHUBTOKEN## --build-arg GIT_DEV_BRANCH=${DEVENV_GIT_BRANCH} --build-arg TIMESTAMP=${TIMESTAMP} --build-arg NODE_MAJOR_VERSION=${NODE_MAJOR_VERSION}"
             }, {
               "repo": "$FRONTEND_REPO",
               "org": "$ORG",
